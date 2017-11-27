@@ -3,14 +3,15 @@ Overview
 * Name: cylon_deb
 * Title : Debian  Linux distribution maintenance program.
 * Description: A TUI(terminal user interface) which provides updates, maintenance, 
-backups and system checks for an debian based linux distribution.
+backups and system checks for an Debian based linux distribution.
 This program provides numerous tools 
-to debian Linux users. The program is menu-based and written in bash.
+to Debian Linux users. The program is menu-based and written in bash.
 The program is mainly text based  but also uses dialog GUI's 
 at a few points mainly for directory and file selection.
 It can also display desktop notifications. 
-The program is a fork and trunctaed version of arch-linux maintence program cylon.
-* Main Author: Gavin Lyons
+The program is a fork and truncated version of the 
+arch-linux maintenance program *cylon*.
+* Main Author: Gavin Lyons 
 
 **NOTE Documentation is a WIP**
 
