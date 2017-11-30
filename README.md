@@ -74,7 +74,7 @@ for custom system backup. If the user is not using the system backup option
 or ccrypt menu function. the user does not need config file.
 * NAME: cylonCfg.conf 
 * PATH: ``` $HOME/.config/cylon/cylonCfg.conf ```
-This Path can be overwritten by environmental variable see next section.
+
 * SETTINGS:
 "DestinationX" is the path for backups.
 "gdrivedestX" is remote google drive directory file ID
@@ -178,7 +178,7 @@ system and cylon.
 	* Search for already installed packages
 	* Display extensive information for installed package 
 	* List all files owned by a given package
- * Clean up the local cache.
+        * Clean up the local cache.
 	* Write installed package lists to files (REF1)
 	* Remove all packages not required as dependencies 
 
@@ -251,10 +251,12 @@ system and cylon.
 	* Function can also run by option -h 
 
 REF1: package lists 
+
+
 | Index | Contents | Filename | 
 | -------- | -------- | ----- |
 | 1 | All installed | All_PKG | 
-| 2 | All native, explicitly installed| Exp_PKG.txt | 
+| 2 | All native, explicitly installed | Exp_PKG.txt | 
 | 3 | All foreign installed | ForPKG.txt | 
 
 
