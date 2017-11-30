@@ -105,10 +105,10 @@ msgFunc blue "Main Menu:"
 	local choiceMainVar
 	local optionsMArr=(
 	"Updates" \
-	 "System Update" "System Maintenance" \
-	"System backup" "System Security" "Network Maintenance" \
+	 "System Maintenance" \
+	"System backup" "System Security"  \
 	"xterm terminal" "View/Edit config file"\
-	  "System information" "Cylon information" "Weather" "Exit"\
+	  "System information" "Cylon information"  "Exit"\
 	)
 	select choiceMainVar in "${optionsMArr[@]}"
 	do
@@ -116,36 +116,28 @@ msgFunc blue "Main Menu:"
 			"${optionsMArr[0]}")   # update menu for deb
 				debupdateFunc
 			;;
-			"${optionsMArr[1]}") #full system update.
-				updateFunc
-			;;
-			"${optionsMArr[2]}") #system maintenance
+			"${optionsMArr[1]}") #system maintenance
 				SystemMaintFunc 
 			;;
-			"${optionsMArr[3]}")  #Full system backup
+			"${optionsMArr[2]}")  #Full system backup
 				SystemBackFunc 
 			;;
-			"${optionsMArr[4]}")  #System security
+			"${optionsMArr[3]}")  #System security
 				SystemSecFunc "$@"
 			;;
-			"${optionsMArr[5]}")  # network utiltes
-				networkFunc
-			;;
-			"${optionsMArr[6]}")  # open a terminal
+
+			"${optionsMArr[4]}")  # open a terminal
 				xterm -e "cd $DEST3  && /bin/bash"
 				msgFunc anykey
 			;;
-			"${optionsMArr[7]}")   #config file edit or view
+			"${optionsMArr[5]}")   #config file edit or view
 				readconfigFunc "USERCALL"
 			;;
-			"${optionsMArr[8]}") #system info
+			"${optionsMArr[6]}") #system info
 				HelpFunc "SYS"
 			;;
-			"${optionsMArr[9]}")  # cylon info and cat readme file to screen 
+			"${optionsMArr[7]}")  # cylon info and cat readme file to screen 
 				HelpFunc "HELP"
-			;;
-			"${optionsMArr[10]}")  # 3 day forecast weather
-				WeatherFunc
 			;;
 			*)#exit
 				exitHandlerFunc exitout 
@@ -178,7 +170,6 @@ msgFunc line
 		out updates, maintenance, system checks, backups and more. 
 		EOF
 		msgFunc norm "Written by G.Lyons, Reports to  <glyons66@hotmail.com>"
-		msgFunc norm "AUR package name = cylon, at aur.archlinux.org by glyons."
 		msgFunc norm "Version=$(dpkg -s cylon 2> /dev/null | grep Version)"
 		msgFunc norm "Cylon program location = $(which cylon)"
 		msgFunc norm "Cylon modules for functions = /usr/lib/cylon/modules/*"
@@ -186,7 +177,7 @@ msgFunc line
 		msgFunc norm "Location of cylonCfg.conf = $DEST5"
 		msgFunc norm "Location of readme.md changlog.md = $DEST6"
 		msgFunc norm "Location of License.md = /usr/share/licenses/cylon"
-		msgFunc norm "Man page, Desktop entry and icon also installed"
+		msgFunc norm "Desktop entry and icon also installed"
 		if [ -z "${CYLONDEST}" ]
 		then 
 			msgFunc norm "Environment variable CYLONDEST is not Set"
@@ -205,28 +196,20 @@ msgFunc line
 		else 
 			msgFunc norm "gdrive is installed"
 		fi
-		#rkhunter (optional) – finds root kits malware
-		checkPacFunc rkhunter
+		# Aptitude package mangement utility
+		checkPacFunc aptitude
+		# deborphan utility
+		checkPacFunc deborphan
 		#netcat-openbsd(optional) – used for checking network
 		checkPacFunc netcat
-		#clamav  (optional) – used for finding malware
-		checkPacFunc clamav
-		#bleachbit  (optional) – used for system clean
-		checkPacFunc bleachbit 
 		#ccrypt (optional) – Encrypt and decrypt files
 		checkPacFunc ccrypt
 		#rsync (optional) – backup utility
 		checkPacFunc rsync
-		#lynis (optional) – system auditor
-		checkPacFunc lynis
 		#inxi (optional) – CLI system information script 
 		checkPacFunc inxi
 		#htop (optional) – Command line system information script 
 		checkPacFunc htop
-		#wavemon (optional) – wireless network monitor 
-		checkPacFunc wavemon
-		#speedtest-cli (optional) – testing internet bandwidth
-		checkPacFunc speedtest-cli
 		msgFunc green "Do you want to view readme [y/n] ?"
 		if msgFunc yesno
 			then #yes
@@ -263,7 +246,7 @@ msgFunc anykey
 clear
 
 msgFunc green "Installed Packages Information"
-msgFunc yellow " n/a" 
+msgFunc yellow "TODO  n/a 30-11-17" 
 msgFunc anykey
 clear
 
@@ -360,21 +343,11 @@ function checkinputFunc
 {
 case "$1" in
 	"");;
-	-u|--update) #update system report 
-		updateFunc
-	;;
+
 	-c|--config)
 		readconfigFunc "USERCALL"
 		;;
-	-d|--default)
-#Bleachbit system clean. Use the options set in the GUI
-		msgFunc green "Bleachbit system clean"  
-		msgFunc norm "Preset options see $HOME/.config/bleachbit/ or GUI "
-		msgFunc anykey "To run bleachbit -c --preset"
-		msgFunc norm  "Running bleachbit -c --preset"
-		bleachbit -c --preset
-		msgFunc green "Done!"
-		;;
+
 	-v|--version)
 		msgFunc green "Version=$(dpkg -s cylon 2> /dev/null | grep Version)"
 		;;
@@ -384,9 +357,6 @@ case "$1" in
 	-h|--help)
 		HelpFunc HELP
 		;;
-	-b|--bleachbit)
-		SystemCleanFunc
-	;;
 	-m|--maint)
 		SystemMaintAutoFunc
 	;;
@@ -394,8 +364,8 @@ case "$1" in
 		pkglistFunc
 	;;
 	*)	msgFunc red    "Invalid option!"
-		msgFunc yellow "Usage: -b -c -d -h  -m -p  -s -u -v "
-		msgFunc yellow "See readme.md for details at cylon -h or man cylon"
+		msgFunc yellow "Usage:  -c  -h -m -p  -s -v "
+		msgFunc yellow "See readme.md for details at cylon -h "
 	;;
 esac
 #was there a input if yes quit?
@@ -427,18 +397,4 @@ function makeDirFunc
 			pwd	 
 }
 
-#FUNCTION HEADER
-# NAME :  WeatherFunc
-# DESCRIPTION:3 day weather forecast
-function WeatherFunc
-{
-					msgFunc norm "3 day weather forecast by WTTR.IN"
-					msgFunc norm "Type a City name, airport code, domain name or area code:-"
-					local mycityVar=""
-					read -r mycityVar		
-					clear
-					curl wttr.in/"$mycityVar"
-					msgFunc anykey 
-					clear
-}
 

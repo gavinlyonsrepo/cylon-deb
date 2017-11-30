@@ -1,7 +1,7 @@
 [Desktop Entry]
-Name=Cylon
-GenericName=Cylon maintenance
-Comment=Arch Linux maintenance CLI program
+Name=Cylon_Deb
+GenericName=Cylon_Deb maintenance
+Comment=Linux maintenance CLI program for Debian based distro
 Exec=cylon
 Icon=cylonicon
 Categories=System

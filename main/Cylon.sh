@@ -2,18 +2,15 @@
 #=========================HEADER==========================================
 
 #name:cylon
-#Title : Arch Linux distro maintenance bash script. 
+#Title : Debian Linux distro maintenance bash script. 
 #Description: Updates, maintenance, backups and system checks in 
-#single menu driven optional script Command line program for Arch linx users. 
-#see readme.md(access thru cylon info page) or manpage "man cylon" for info.
-#First commit to AUR  =080916
-#Last update to github repo =200517
-#Last Version release =050517 
-#Version 4.0-1 See changelog.md at repo for version control
+#single menu driven optional script Command line program users. 
+#see readme.md(access thru cylon info page)
+#Version 1.0-1 See changelog.md at repo for version control
 #License: see license.md 
 #Written by Gavin lyons 
-#Software repo: https://github.com/gavinlyonsrepo/cylon
-#AUR package name : cylon , at aur.archlinux.org by glyons
+#Software repo: https://github.com/gavinlyonsrepo/cylon_deb
+
 
 #=======================GLOBAL VARIABLES SETUP=============================
 
@@ -56,8 +53,8 @@ mkdir -p "$DEST5"
 #set path for readme.md changlog.md DEST6
 DEST6="/usr/share/doc/cylon"
 #set the path for the modules library functions. DEST7
-DEST7="/usr/lib/cylon/modules/"  #production code path
-#DEST7="/home/pi/Documents/tech/cylon/modules/" #development code path 
+#DEST7="/usr/lib/cylon/modules/"  #production code path
+DEST7="/home/gavin/Documents/cylon_deb/cylon_deb/modules/" #development code path 
 
 #====================FUNCTIONS===============================
 
@@ -71,14 +68,14 @@ done
 
 #==================MAIN CODE====================================
 
+
 #call check for user input options
 checkinputFunc "$1"
 
 #Display opening screen title 
-msgFunc line
-#msgFunc highlight "$(pacman -Qs cylon | head -1 | cut -c 7-20)                    "
-msgFunc highlight "Version=$(dpkg -s cylon 2> /dev/null | grep Version)"
-msgFunc highlight "Arch Linux Maintenance Program "
+msgFunc line                   
+msgFunc highlight "Version=$(dpkg -s cylon_deb 2> /dev/null | grep Version)"
+msgFunc highlight "Debian based Linux Distro Maintenance Program "
 msgFunc norm "$(date +%T-%d-%a-Week%U-%b-%Y)"
 msgFunc norm "Unix epoch time $(date +%s)     "
 msgFunc line

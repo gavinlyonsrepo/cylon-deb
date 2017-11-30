@@ -19,10 +19,8 @@ function SystemMaintFunc
 				"Check for Broken Symlinks" "Find files where no group or User corresponds to file's numeric ID"\
 				 "Diskspace usage" "Old configuration files scan"\
 				 "Print sensors information" "Clean journal files"\
-				 "Delete core dumps /var/lib/systemd/coredump/" "Delete files"\
-				  "$(checkPacFunc inxi NOMES)"\
-				  "$(checkPacFunc bleachbit NOMES)"\
-				"$(checkPacFunc rmlint NOMES)" "$(checkPacFunc htop NOMES)" "Return")
+				 "Delete core dumps /var/lib/systemd/coredump/" "Delete files" "$(checkPacFunc inxi NOMES)"\
+				 "$(checkPacFunc htop NOMES)" "Return")
 
 			#change dir for log files
 			makeDirFunc "-SYSINFO"
@@ -132,8 +130,8 @@ function SystemMaintFunc
 						msgFunc green "Delete core dumps /var/lib/systemd/coredump/"
 						sudo rm -rvf /var/lib/systemd/coredump/*
 				;;
-				"${optionsSMArr[11]}")  # delete folders /files
-						SystemCleanFunc "FOLDERS"
+				"${optionsSMArr[11]}")  # delete folders
+						SystemCleanFunc 
 				;;
 				
 				
@@ -149,13 +147,7 @@ function SystemMaintFunc
 						msgFunc green "get output of inxi -Fixz"
 						inxi -Fixz | tee inxioutput
 				;;
-				"${optionsSMArr[13]}") #system clean with bleachbit
-					SystemCleanFunc
-				;;
-				"${optionsSMArr[14]}") #rmlint 
-					RmLintFunc
-				;;
-				"${optionsSMArr[15]}")  # htop - interactive process viewer
+				"${optionsSMArr[13]}")  # htop - interactive process viewer
 					#check if htop package  installed
 				if ! checkPacFunc htop
 				then

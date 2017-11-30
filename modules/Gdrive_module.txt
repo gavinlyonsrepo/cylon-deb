@@ -10,7 +10,7 @@
 #NOTES :    needs gdrive and gnu-netcat installed 
 function gdriveFunc
 {
-clear
+clear 
 msgFunc green "gdrive, connect to google drive via the terminal" 
 gdrive version
 msgFunc yellow "NOTE Options 2 3 4 5, Include Delete extraneous remote files as of v3.4"

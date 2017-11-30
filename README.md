@@ -7,15 +7,10 @@ backups and system checks for an Debian based linux distribution.
 This program provides numerous tools 
 to Debian Linux users. The program is menu-based and written in bash.
 The program is mainly text based  but also uses dialog GUI's 
-at a few points mainly for directory and file selection.
-It can also display desktop notifications. 
-The program is a fork and truncated version of the 
+at a few points mainly for directory and file selection. 
+The program is a fork and highly truncated version of the 
 arch-linux maintenance program *cylon*.
 * Main Author: Gavin Lyons 
-
-**NOTE Documentation is a WIP**
-
-**NOTE Documentation is a WIP**
 
 
 Table of contents
@@ -37,10 +32,11 @@ Table of contents
 
 Installation
 -----------------------------------------------
-
+TODO: Describe the installation process 
 
 Usage
 -------------------------------------------
+
 
 
 Files and setup

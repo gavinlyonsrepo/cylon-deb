@@ -1,6 +1,6 @@
 #!/bin/bash
 #Module containing functions called from cylon package
-#Functions: 	debupdateFunc, pkglistFunc,updateFunc,checkPacFunc 
+#Functions: 	debupdateFunc, pkglistFunc,checkPacFunc 
 
 #FUNCTION HEADER
 # NAME : 	debupdateFunc
@@ -9,7 +9,8 @@
 #NOTE gnu-netcat is neeeded for the first option.      
 function 	debupdateFunc
 {
-		clear
+clear		
+while true; do
 		   #Pacman package manager options:
 		   msgFunc line
 		   msgFunc green "Updates" 
@@ -100,8 +101,10 @@ function 	debupdateFunc
 			esac
 			break
 			done
-			msgFunc green "Done!"	
-			msgFunc anykey 
+			
+msgFunc green "Done!"	
+msgFunc anykey 
+done
 }
 
 
@@ -128,16 +131,6 @@ function pkglistFunc
 						deborphan > ForPKG.txt
 }
 
-##FUNCTION HEADER
-# NAME :  updatefunc
-# DESCRIPTION: called from checkinputfunc or main menu.
-function updateFunc
-{
-		clear
-		msgFunc yellow n/a
-		msgFunc anykey
-		msgFunc line
-}
 
 #FUNCTION HEADER
 # NAME : checkPacFunc
