@@ -2,7 +2,7 @@ Overview
 --------------------------------------------
 * Name: cylon_deb
 * Title : Debian  Linux distribution maintenance program.
-* Description: A TUI(terminal user interface) which provides updates, maintenance, 
+* Description: A TUI (terminal user interface) which provides updates, maintenance, 
 backups and system checks for an Debian based linux distribution.
 This program provides numerous tools 
 to Debian Linux users. The program is menu-based and written in bash.
@@ -24,15 +24,13 @@ Table of contents
   * [Output and environment variables](#output-and-environment-variables)
   * [Dependencies](#dependencies)
   * [Features](#features)
-  * [Return codes](#return-codes)
-  * [See Also](#see-also)
   * [Communication](#communication)
   * [History](#history)
   * [Copyright](#copyright)
 
 Installation
 -----------------------------------------------
-TODO: Describe the installation process 
+TO DO: Create a PPA and Deb file. Describe the installation process. 
 
 Usage
 -------------------------------------------
@@ -153,6 +151,7 @@ also "n/a" is displayed besides uninstalled options in menus.
 | inxi  | CLI system information script |
 | aptitude |  Advanced Packaging Tool (APT) system. |
 | deborphan | Orphaned package finder |
+| gdrive    | google drive client |
 
 
 Features
@@ -178,7 +177,7 @@ system and cylon.
 	* Search for already installed packages
 	* Display extensive information for installed package 
 	* List all files owned by a given package
-        * Clean up the local cache.
+	* Clean up the local cache.
 	* Write installed package lists to files (REF1)
 	* Remove all packages not required as dependencies 
 
@@ -267,7 +266,7 @@ please send a report.
 Pull requests, suggestions for improvements
 and new features welcome.
 * Contact: Upstream repo at github site below or glyons66@hotmail.com
-* Upstream repository: https://github.com/gavinlyonsrepo/cylon_deb
+* Upstream repository: [github](https://github.com/gavinlyonsrepo/cylon_deb)
 
 History
 ------------------
