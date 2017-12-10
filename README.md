@@ -30,7 +30,7 @@ Installation
 -----------------------------------------------
 Manual install or DEB file available on request.
 
-TO DO: Create a PPA on laucnpad and describe the installation process. 
+TO DO: Create a PPA on launchpad and describe the installation process. 
 
 Usage
 -------------------------------------------
@@ -81,6 +81,7 @@ Optional Dependencies
 Some functions require dependencies packages to be installed.
 These optional dependencies are left to user discretion.
 The user can check if optional dependencies installed with cylon help.
+
 | Dependencies| Usage |
 | ------ | ------ |
 | aptitude |  Advanced Packaging Tool (APT) system. |
