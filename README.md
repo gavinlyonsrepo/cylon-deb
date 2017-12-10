@@ -1,9 +1,9 @@
 Overview
 --------------------------------------------
-* Name: cylon_deb
+* Name: cylon-deb
 * Title : Debian  Linux distribution maintenance program.
 * Description: A TUI (terminal user interface) which allows users to 
-carry out  maintenanceon  an Debian based linux distribution.
+carry out  maintenance on  an Debian based linux distribution.
 The program is menu-based and written in bash.
 The program is a fork and highly truncated version of the 
 arch-linux maintenance program *cylon*, 
@@ -18,7 +18,7 @@ Table of contents
   * [Table of contents](#table-of-contents)
   * [Installation](#installation)
   * [Usage](#usage)
-  * [Files and setup](#files-and-setup)
+  * [Files](#files)
   * [Output and environment variables](#output-and-environment-variables)
   * [Dependencies](#dependencies)
   * [Features](#features)
@@ -28,13 +28,15 @@ Table of contents
 
 Installation
 -----------------------------------------------
-TO DO: Create a PPA and Deb file. Describe the installation process. 
+Manual install or DEB file available on request.
+
+TO DO: Create a PPA on laucnpad and describe the installation process. 
 
 Usage
 -------------------------------------------
 
-The program installs an icon in system application menus under system.
-It can be also run in a terminal by typing cylon: 
+
+Run in a terminal by typing cylon: 
 
 cylon -[options]
 
@@ -47,7 +49,7 @@ Options list (standalone cannot be combined):
 | -v --version  | Print version information and exit |
 
 
-Files and setup
+Files
 -----------------------------------------
 
 | File  | Description |
