@@ -238,7 +238,7 @@ case "$1" in
 	"");;
 
 	-v|--version)
-		msgFunc green "Version=$(dpkg -s cylon 2> /dev/null | grep Version)"
+		msgFunc green "Version=$(dpkg -s cylondeb 2> /dev/null | grep Version)"
 		;;
 	-s|--system)
 		HelpFunc SYS
@@ -448,7 +448,7 @@ checkinputFunc "$1"
 clear
 #Display opening screen title 
 msgFunc line                   
-msgFunc highlight "Version=$(dpkg -s cylon_deb 2> /dev/null | grep Version)"
+msgFunc highlight "Version=$(dpkg -s cylondeb 2> /dev/null | grep Version)"
 msgFunc highlight "Debian based Linux Distro Maintenance Program "
 msgFunc norm "$(date +%T-%d-%a-Week%U-%b-%Y)"
 msgFunc norm "Unix epoch time $(date +%s)     "

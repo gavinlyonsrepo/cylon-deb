@@ -28,9 +28,17 @@ Table of contents
 
 Installation
 -----------------------------------------------
-Manual install or DEB file available on request.
 
-TO DO: Create a PPA on launchpad and describe the installation process. 
+A  Personal Package Archives (PPA) has been created on Ubuntu
+package building and hosting section of launchpad site 
+called cylondeb.
+
+To install this on your system run commands in terminal
+
+```sh
+sudo add-apt-repository ppa:typematrix/cylondeb
+sudo apt-get update
+```
 
 Usage
 -------------------------------------------
@@ -38,7 +46,7 @@ Usage
 
 Run in a terminal by typing cylon: 
 
-cylon -[options]
+Cylon.sh -[options]
 
 Options list (standalone cannot be combined):
 
