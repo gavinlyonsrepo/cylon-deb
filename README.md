@@ -41,7 +41,7 @@ To install this on your system run commands in terminal
 
 ```sh
 sudo add-apt-repository ppa:typematrix/cylondeb
-sudo apt-get update
+sudo apt update
 sudo apt install cylondeb
 ```
 
