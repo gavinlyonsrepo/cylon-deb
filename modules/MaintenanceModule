@@ -1,0 +1,306 @@
+#!/bin/bash
+#=========================HEADER==========================================
+#name: MaintenanceModule
+#Title: Bash shell Module called by program cylon-deb 
+#Description: Holds functions related to System Maintenance
+#Written: Gavin Lyons
+#Function list: pkglistFunc , checkPacFunc , debupdateFunc , makeDirFunc
+
+#====================FUNCTIONS===============================
+#FUNCTION HEADER
+# NAME : makeDirFunc
+# DESCRIPTION :  makes a directory with time/date stamp and enters it
+#Directory used for program output and backups. 
+# INPUTS : $1 text is appended to name  $2 bit flag  to change dir or not
+function makeDirFunc
+{
+	local dirVar=""
+	#makes dirs for output appends passed text to name
+	#check if coming from system backup other path 1 yes 0 no.
+	if [ "$2" != 1 ]
+		then 
+		cd "$DEST3" || exitHandlerFunc DEST3
+	fi
+	dirVar=$(date +%H%M-%d%b%y)"$1"
+	mkdir "$dirVar"
+	cd "$dirVar" || exitHandlerFunc DEST4
+	msgFunc norm "Directory for output made at:-"
+	pwd
+}
+    
+#FUNCTION HEADER
+# NAME :  pkglistFunc
+# INPUTS: $1 Backup if called from backup do not create directory
+# DESCRIPTION: Creates a copy of packages list see below.
+function pkglistFunc
+{
+	local pid=""
+	msgFunc green "Making a copy of package lists."
+	makeDirFunc "-PKGINFO"
+	# call spinner function put run in background and save PID
+	echo " "
+	spin &
+	pid=$!
+	
+	# (1) all packages 
+	dpkg --list | grep ^i > all_PKG
+	# (2) List native packages installed explicitly 
+	apt-mark showmanual > Exp_PKG
+	# (3) List packages that are installed but are not available in any installation source 
+	deborphan > noinstall_PKG
+	# (4) Get a dump of the whole system information - 
+	# Prints, Saves or similar the current state of the package management system. 
+	apt-cache stats > stats_PKG
+	# (5) List packages that were recently added to one of the installation sources,
+	aptitude search '~N' > Recent_add_PKG
+	# (6) List packages not required by any other package
+	deborphan -anp1 > non-Dep_PKG
+	# (7) List packages installed automatically (as dependencies)
+	apt-mark showauto > auto_Dep_PKG
+	# (8) Prints a list of all installation sources including important information like URI, alias etc
+	apt-cache policy > Info_Source_PKG
+	# (9) list of non-standard repositories in use
+	cat /etc/apt/sources.list.d/*.list | grep -v "^#" > non_standard_PKG
+	# (10) list Installed packages by size
+	aptitude search "~i" --display-format "%p %I" --sort installsize > install_size_PKG
+	# (11) list packages by install date 
+	grep installed /var/log/dpkg.log > Install_date_1_PKG
+	# (12) list packages by install date less data
+	grep " install " /var/log/dpkg.log > Install_date_2_PKG
+	
+	# Stop spin function with PID
+	kill $pid
+	echo " "
+}
+
+#FUNCTION HEADER
+# NAME : checkPacFunc
+#DESCRIPTION : Checks if package installed 
+#PROCESS: check if package(passed $1) installed if NOMES passed 
+#as $2 goto menu display mode and appends passed $3
+#NOMES =no message
+# INPUTS : $1(package $2(NOMES flag) or (append text))
+#OUTPUTS: returns 0 for installed 1 for not installed    
+function checkPacFunc
+{
+	local pacVar=""
+	pacVar=$(dpkg -l "$1" 2> /dev/null)
+	if [ -n "$pacVar" ]
+	then #installed
+		#if text input is NOMES skip install good message
+		if [ "$2" = "NOMES" ] 
+		then 
+			printf '%s' "$1"
+		else
+			printf '%s\n' "$1 is Installed $2"
+		fi
+		return 0
+	else #not installed
+		#if text input is NOMES skip install bad message
+		if [ "$2" = "NOMES" ] 
+		then
+			printf '%s' "$1 n/a"
+		else
+			printf '%s\n' "${RED}$1 is Not installed${NORMAL} $2"
+		fi
+		return 1
+	fi 
+}
+
+#FUNCTION HEADER
+# NAME : 	debupdateFunc
+# DESCRIPTION : debian  manager options
+# PROCESS : See options array      
+#NOTE gnu-netcat is neeeded for the first option.      
+function	debupdateFunc
+{
+clear
+while true; do
+	local pacString=""
+	msgFunc blue "Maintenance options:-"
+	options=("Check for updates (no download), aptitude search '~U'" \
+	"Upgrade all, apt update && apt dist-upgrade" \
+	"Display remote package information, apt-cache show" \
+	"Install Package, apt install" \
+	"Search for packages in the database, apt search" \
+	"Delete Package, apt remove" \
+	"Search for already installed packages, aptitude search '~i'" \
+	"Display  info for locally installed packages, dpkg -s" \
+	"List all files owned by a given package, dpkg -L " \
+	"Clean up all local cache, apt autoclean " \
+	"Write installed package lists to files" \
+	"Removes pkgs installed by other pkgs & no longer needed, apt autoremove " \
+	"Remove pkg's no longer included in any repos,aptitude purge '~o'" \
+	"View dpkg log file at /var/log/dpkg.log" \
+	"Show all or most information about a package, apt show " \
+	"Show the changelog of a package, apt-get changelog" \
+	"Verify all packages, debsums" \
+	"Verify dependencies of the complete system, apt-get check" \
+	"Add a PPA to system,  add-apt-repository ppa:" \
+	"Purge a PPA from system,  ppa-purge" \
+	"Remove orphan packages with orphaner" \
+	"Return to main menu")
+	select choicep in "${options[@]}"
+	do
+	case "$choicep" in
+		"${options[0]}")
+		msgFunc green "Updates ready:-.... "
+			msgFunc norm   "Number of  updates ready...> $(aptitude search '~U' | wc -l)"
+			aptitude search '~U' 
+		;;
+		
+		"${options[1]}") #update system
+			msgFunc green "Update system"
+			sudo apt update  && sudo apt dist-upgrade
+		;;
+		
+		"${options[2]}") # Display remote package information
+			msgFunc green "Display information for Package."
+			msgFunc norm "Please enter package name"
+			read -r pacString
+			apt-cache show  "$pacString"
+		;;
+		
+		"${options[3]}") # Install Package
+			msgFunc green "Install package."
+			msgFunc norm "Please enter package name"
+			read -r pacString
+			sudo apt install "$pacString"
+		;;
+		
+		"${options[4]}")   #Search Repos for Package
+			msgFunc green "Search for packages in the database."
+			msgFunc norm "Please enter package name"
+			read -r pacString
+			apt search "$pacString"
+		;;
+		
+		"${options[5]}") #Delete Package
+			msgFunc green "Delete Package."
+			msgFunc norm "Please enter package name"
+			read -r pacString
+			sudo apt remove "$pacString"
+		;;
+		
+		"${options[6]}")   #Search for already installed packages
+			msgFunc green "Search for already installed packages."
+			msgFunc norm "Please enter package name"
+			read -r pacString
+			aptitude search "~i(~n $pacString|~d $pacString)"
+		;;
+		
+		"${options[7]}") #Display extensive information about a given package(local install)
+			msgFunc green "Display information  for Package."
+			msgFunc norm "Please enter package name"
+			read -r pacString
+			dpkg -s "$pacString"
+		;;
+		
+		"${options[8]}") #List all files owned by a given package.
+			msgFunc green "List all files owned by a given package."
+			msgFunc norm "Please enter package name"
+			read -r pacString
+			dpkg -L "$pacString"
+		;;
+		
+		"${options[9]}")  #Clean up all local caches.
+		#Autoclean removes only unneeded, obsolete information. 
+			msgFunc green  "Clean up all local cache."
+			sudo  apt autoclean 
+		;;
+		
+		"${options[10]}") #pkglist
+			msgFunc green "Writing installed package lists to files at :"
+			pkglistFunc
+		;;
+		
+		"${options[11]}") # Removes packages that were installed by other packages and are no longer needed. 
+			#Removes packages that were installed by other packages and are no longer needed. 
+			msgFunc green "Delete packages no longer needed!"
+			sudo  apt autoremove 
+		;;
+		
+		"${options[12]}") # Remove packages no longer included in any repositories. 
+			msgFunc green "Remove packages no longer included in any repositories."
+			sudo aptitude purge '~o' 	
+		;;
+		
+		"${options[13]}") #Show a log of actions taken by the software management. 
+			msgFunc green "Show a log of actions taken by the software management."
+			less /var/log/dpkg.log
+		;;
+		
+		"${options[14]}") #Show all or most information about a package
+			msgFunc green "Show all or most information about a package"
+			msgFunc norm "Please enter package name"
+			read -r pacString
+			apt show "$pacString"
+		;;
+		
+		"${options[15]}") #Show the changelog of a package
+			msgFunc green "Show the change log of a package"
+			msgFunc norm "Please enter package name"
+			read -r pacString
+			apt-get changelog "$pacString"
+		;;
+		
+		"${options[16]}") # Verify all packages, debsums
+			msgFunc green "Verify all packages, debsums Only report errors."
+			makeDirFunc "-debsums"
+			debsums -s  --ignore-permissions > debsums.txt
+		;;
+		
+		
+		"${options[17]}") # Verify dependencies of the complete system, apt-get check
+			# Used if installation process was forcefully killed. 
+			msgFunc green "Verify dependencies of the complete system, apt-get check"
+			sudo apt-get check
+		;;
+
+		"${options[18]}") # Add a PPA to system, sudo add-apt-repository ppa:
+			msgFunc green "Add a PPA to system, add-apt-repository ppa:"
+			read -r pacString
+			sudo add-apt-repository ppa:"$pacString"
+		;;
+		
+		"${options[19]}") #purge  a PPA from system, sudo ppa-purge:
+			msgFunc green "purge a PPA to system, sudo ppa-purge"
+			read -r pacString
+			sudo ppa-purge "$pacString"
+		;;
+		
+		"${options[20]}") #Remove orphan packages with orphaner
+			msgFunc green "Remove orphan packages with orphaner"
+			sudo orphaner
+		;;
+		
+		*)  #exit  
+			msgFunc green "Done!"	
+			return
+		;;
+	esac
+	break
+	done
+
+msgFunc green "Done!"
+msgFunc anykey
+clear
+done
+}
+
+
+#FUNCTION HEADER
+# NAME: spin
+# DESCRIPTION: Creates an animation spinner for long time taking process.
+function spin
+{
+	spinner=( Ooooo oOooo ooOoo oooOo ooooO oooOo ooOoo oOooo);
+	while true; do
+		for i in "${spinner[@]}"; 
+		do 
+			# no new line , \r reset line       
+			echo -ne "\r$i";
+			sleep 0.2;
+		done;
+	done
+}

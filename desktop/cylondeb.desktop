@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=Cylon_Deb
-GenericName=Cylon_Deb maintenance
+Name=cylondeb
+GenericName=cylondeb maintenance
 Comment=Linux maintenance CLI program for Debian based distro
-Exec=cylon
-Icon=cylonicon
+Exec=cylondeb
+Icon=cylondebicon
 Categories=System
 Type=Application
 Terminal=true

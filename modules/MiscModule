@@ -1,0 +1,269 @@
+#!/bin/bash
+#=========================HEADER==========================================
+
+#name: MiscModule 
+#Description: Called by Cylon-deb, Bash shell Module to hold miscellaneous functions
+#Written : Gavin Lyons
+#Function list: msgFunc , exitHandlerFunc ,  DisplayFunc , HelpFunc 
+# checkinputFunc
+
+#====================FUNCTIONS===============================
+
+#FUNCTION HEADER
+# NAME : msgFunc
+# DESCRIPTION :   prints to screen
+#prints line, text and anykey prompts, yesno prompt
+# INPUTS : $1 process name $2 text input
+# PROCESS :[1]  print line [2] anykey prompt
+# [3] print text "RGBY, norm yellow and highlight" [4] yn prompt, 
+# OUTPUT yesno prompt return 1 or 0                       
+function msgFunc
+{
+case "$1" in 
+
+	line) #print blue horizontal line of =
+		printf '\033[36;1m%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+		msgFunc norm
+	;;
+	anykey) #any key prompt, appends second text input to prompt
+		printf '%s' "${GREEN}" 
+		read -n 1 -r -s -p "Press any key to continue $2"
+		printf '%s\n' "${NORMAL}"
+	;;
+	
+	#print passed text string
+	green) printf '%s\n' "${GREEN}$2${NORMAL}" ;;
+	red) printf '%s\n' "${RED}$2${NORMAL}" ;;
+	blue) printf '%s\n' "${BLUE}$2${NORMAL}" ;;
+	yellow)printf '%s\n' "${YELLOW}$2${NORMAL}" ;;
+	highlight)printf '%s\n' "${HL}$2${NORMAL}" ;;
+	
+	norm) #print normal text colour
+		if [ "$2" = "" ]
+			then
+			#just change colour to norm if no text sent
+				printf '%s' "${NORMAL}"
+			return
+		fi
+		printf '%s\n' "${NORMAL}$2" ;;
+		
+	yesno) #print yes no quit prompt
+		local yesnoVar=""
+		while true; do
+			read -r yesnoVar
+			case $yesnoVar in
+				[Yy]*) return 0;;
+				[Nn]*) return 1;;
+				[Qq]*) exitHandlerFunc exitout;;
+				*) printf '%s\n' "${YELLOW}Please answer: (y/Y for yes) OR (n/N for no) OR (q/Q to quit)!${NORMAL}";;
+			esac
+		done
+	;;
+	*) 
+		printf '%s\n' "ERROR unknown input to msgFunc"
+	;;
+esac
+}
+
+
+#FUNCTION HEADER
+# NAME :  exitHandlerFunc 
+# DESCRIPTION: error handler deal with user 
+#exists and path not found errors and internet failure 
+# INPUTS:  $2 text of filename
+# PROCESS : exitout DEST 3-4 6-7 or file error
+function exitHandlerFunc
+{
+	#double square brackets without use of quotes on matching pattern 
+	#for glob support
+	if [[ "$1" = DEST* ]]
+	then
+		msgFunc red "Path not found to Destination directory"
+	fi
+	case "$1" in
+		exitout) msgFunc norm "";;
+		DEST3) msgFunc red "Output folder: $DEST3" ;;
+		DEST4) msgFunc red "General: $DEST4"  ;;
+		DEST6) msgFunc red "Readme:  $DEST6"   ;;
+		DEST7) msgFunc red "Modules: $DEST7"  ;;
+		fileerror) msgFunc red "File error $2"  ;;
+		*) msgFunc yellow "unknown input to error handler";;
+	 esac
+	msgFunc yellow "Goodbye $USER!"
+	msgFunc anykey "and exit."
+	if [ "$1" = "exitout" ]
+	then
+		#non-error exit
+		exit 0
+	fi 
+	exit 1
+}
+
+#FUNCTION HEADER
+# NAME : DisplayFunc
+# DESCRIPTION : Function to display main menu
+function DisplayFunc
+{
+msgFunc blue "Main Menu:"
+	local choiceMainVar
+	local optionsMArr=(
+	"System Maintenance Menu " "Open a xterm terminal at cylondeb output folder" \
+	  "System Information Display " "Cylondeb Information Display"  "Exit"\
+	)
+	select choiceMainVar in "${optionsMArr[@]}"
+	do
+	case "$choiceMainVar" in
+		"${optionsMArr[0]}")   # update menu for deb
+			debupdateFunc
+		;;
+		"${optionsMArr[1]}")  # open a terminal
+			xterm -e "cd $DEST3  && /bin/bash"
+			msgFunc anykey
+		;;
+
+		"${optionsMArr[2]}") #system info
+			HelpFunc "SYS"
+		;;
+		"${optionsMArr[3]}")  # cylon info
+			HelpFunc "HELP"
+		;;
+		*)#exit
+			exitHandlerFunc exitout 
+		;;
+	esac
+	break
+	done
+
+}
+
+#FUNCTION HEADER
+# NAME :            HelpFunc
+# DESCRIPTION :     two sections one prints various system information the
+# other cylon-deb information and the installed readme file
+# INPUTS : $1 process name either HELP or SYS    
+# PROCESS :[1] HELP =cylon info [2] SYS   =system info
+function HelpFunc 
+{
+clear
+msgFunc line
+if [ "$1" = "HELP" ]
+	then
+	msgFunc green "Cylon-deb information and readme.md file  display." 
+	msgFunc line 
+	msgFunc norm "Written by G.Lyons, Reports to  <glyons66@hotmail.com> or upstream URL"
+	msgFunc norm "Launch Pad, Personal package archive name = cylondeb" 
+	msgFunc norm "https://launchpad.net @ ppa:typematrix/cylondeb"
+	msgFunc norm "Upstream URL https://github.com/gavinlyonsrepo/cylon-deb"
+	msgFunc norm "$(dpkg -s cylondeb 2> /dev/null | grep Version)" 
+	msgFunc norm "cylon-deb program location = $(which cylondeb)"
+	msgFunc norm "Folder for Cylon-deb output data = $DEST3"
+	if [ -z "${CYLONDEST}" ]
+	then 
+		msgFunc norm "Environment variable CYLONDEST is not Set"
+	else 
+		msgFunc norm "Environment variable CYLONDEST is set to $CYLONDEST"
+	fi
+	
+	# Dependencies section
+	msgFunc anykey "and check which dependencies are installed"
+	clear
+	msgFunc norm " "
+	msgFunc green "Dependencies"
+	#create array to hold Dependencies
+	local DependenciesArr=("aptitude" "deborphan" "debsums"  "ppa-purge")
+	#loop thru and display the array
+	#length of array
+	local tLenVar=""
+	tLenVar="${#DependenciesArr[@]}" 
+	for (( i=0; i<"${tLenVar}"; i++ ));
+	do
+		checkPacFunc "${DependenciesArr[i]}"
+	done
+	msgFunc green "Done!"
+	msgFunc green "Do you want to view readme? [y/n] ?"
+	if msgFunc yesno
+	then #yes
+		msgFunc line
+		msgFunc green "Displaying cylondeb README.md file at $DEST6"
+		cd "$DEST6"  || exitHandlerFunc DEST6
+		less README.md 
+		msgFunc green "Done!" 
+		msgFunc line
+		msgFunc anykey
+	fi
+	msgFunc green "Done!"
+	clear
+elif [ "$1" = "SYS" ]
+	then
+	msgFunc green "System Information display"
+	msgFunc norm "Uptime = $(uptime -p)"
+	msgFunc norm "Kernel name = $(uname -s)"
+	msgFunc norm "Kernel version = $(uname -v)"
+	msgFunc norm "Kernel release = $(uname -r)"
+	msgFunc norm "Distribution = $(grep -s "DISTRIB_DESCRIPTION"  /etc/*-release | cut -d'=' -f2)"
+	msgFunc norm "Shell = $SHELL"
+	msgFunc norm "Operating System = $(uname -o)"
+	msgFunc norm "Machine hardware = $(uname -m)"
+	msgFunc norm "Hardware platform = $(uname -i)"
+	msgFunc norm "Network node name = $(uname -n)"
+	msgFunc norm "User name = $USER"
+	#screen resolution get
+	if type -p xrandr >/dev/null; then
+		msgFunc norm "Screen Resolution = $(xrandr |grep "\*" | cut -c 1-15)"  2>/dev/null
+	elif type -p xdpyinfo >/dev/null; then
+		msgFunc norm "Screen Resolution = $(xdpyinfo | awk -F '[ x]+' '/dimensions:/{print $3}') x $(xdpyinfo | awk -F '[ x]+' '/dimensions:/{print $4}')"
+	fi
+	msgFunc norm "CPU = $(grep name /proc/cpuinfo | tail -1| cut -d ":" -f 2)"
+	# Memory 
+	mem=($(awk -F ':| kB' '/MemTotal|MemAvail/ {printf $2}' /proc/meminfo))
+	memused="$((mem[0] - mem[1]))"
+	memused="$((memused / 1024))"
+	memtotal="$((mem[0] / 1024))"
+	memory="${memused}MB / ${memtotal}MB"
+	msgFunc norm "RAM used/total = ($memory)"
+	msgFunc norm "Number of orphan packages not required as dependencies: $(deborphan | wc -l)"
+	msgFunc norm "Number of packages = $(dpkg -l | wc -l)"
+	msgFunc norm "Biggest package = $(aptitude search "~i" --display-format "%p" --sort installsize| tail -n 1)"
+	msgFunc anykey
+	clear
+fi
+}
+
+#FUNCTION HEADER
+# NAME :           checkinputFunc
+# DESCRIPTION:CHECK INPUT OPTIONS from linux command line arguments passed to program on call
+# INPUTS :  $1 user input option
+#-v display version and exit
+#-s display system info and exit
+#-h display cylon info and exit 
+function checkinputFunc
+{
+case "$1" in
+	"");;
+	-p|--packlist)
+		clear
+		pkglistFunc
+		;;
+	-v|--version)
+		msgFunc green "$(dpkg -s cylondeb 2> /dev/null | grep Version)"
+		;;
+	-s|--system)
+		HelpFunc SYS
+		;;
+	-h|--help)
+		HelpFunc HELP
+		;;
+	*)	msgFunc red    "Invalid option!"
+		msgFunc yellow "Usage: -h -s -v -p"
+		msgFunc yellow "See readme.md for details at cylondeb -h "
+	;;
+esac
+
+#was there a input if yes quit?
+if [ -n "$1" ] 
+	then
+		msgFunc anykey
+		exit 0 
+fi
+}
+
