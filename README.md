@@ -164,20 +164,21 @@ Package Lists
 | 11 | List packages by install date  | Install_date_1_PKG |
 | 12 | List packages by install date less data | Install_date_2_PKG |
 
-| index | command |
-| -- | ------- |
-| 1 | dpkg --list | grep ^i |
-| 2 | apt-mark showmanual |
-| 3 | deborphan |
-| 4 | apt-cache stats |
-| 5 | aptitude search '~N' |
-| 6 | deborphan -anp1 |
-| 7 | apt-mark showauto |
-| 8 | apt-cache policy |
-| 9 | cat /etc/apt/sources.list.d/*.list | grep -v "^#" |
-| 10 | aptitude search "~i" --display-format "%p %I" --sort installsize |
-| 11 | grep installed /var/log/dpkg.log |
-| 12 | grep " install " /var/log/dpkg.log |
+
+### Commands used by index number in table:
+
+1. dpkg --list | grep ^i 
+2. apt-mark showmanual
+3.  deborphan 
+4.  apt-cache stats 
+5.  aptitude search '~N' 
+6.  deborphan -anp1 
+7.  apt-mark showauto 
+8.  apt-cache policy 
+9.  cat /etc/apt/sources.list.d/*.list | grep -v "^#" 
+10.  aptitude search "~i" --display-format "%p %I" --sort installsize 
+11.  grep installed /var/log/dpkg.log 
+12.  grep " install " /var/log/dpkg.log 
 
 
 See Also
