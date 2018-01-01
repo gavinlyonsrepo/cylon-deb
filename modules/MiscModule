@@ -186,7 +186,7 @@ if [ "$1" = "HELP" ]
 		msgFunc line
 		msgFunc green "Displaying cylondeb README.md file at $DEST6"
 		cd "$DEST6"  || exitHandlerFunc DEST6
-		less README.md 
+		less README.md.gz 
 		msgFunc green "Done!" 
 		msgFunc line
 		msgFunc anykey
