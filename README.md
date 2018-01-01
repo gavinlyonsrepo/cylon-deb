@@ -1,13 +1,15 @@
 Overview
 --------------------------------------------
 * Name: cylondeb
-* Title : cylon-deb , Debian  Linux distribution maintenance program.
+* Title : cylon-deb , Debian based Linux distribution maintenance program.
 * Description: A TUI (terminal user interface) which allows users to 
-carry out  maintenance on  an Debian based linux distribution.
+carry out  maintenance on  an Debian based linux distributions.
 The program is menu-based and written in bash.
 The program is a fork and highly truncated version of the 
 arch-linux maintenance program *cylon*, 
-which can also be found in this repo.
+which can also be found in this repo. This program provides a
+Terminal based alternative to GUI software managers found in many distros.
+
 * Author: Gavin Lyons 
 
 
@@ -37,6 +39,8 @@ A  Personal Package Archives (PPA) has been created on Ubuntu
 package building and hosting section of launchpad site 
 called cylondeb.
 
+Package built on Ubuntu 16.04 LTS (Xenial Xerus) 64bit
+
 To install this on your system run commands in terminal
 
 ```sh
@@ -45,11 +49,13 @@ sudo apt update
 sudo apt install cylondeb
 ```
 
+**or** Download and copy files manually as per file section table.
+
 Usage
 -------------------------------------------
 
 
-Run in a terminal by typing cylon: 
+Run in a terminal by typing: 
 
 cylondeb -[options]
 
@@ -57,7 +63,7 @@ Options list (standalone cannot be combined):
 
 | Option          | Description     |
 | --------------- | --------------- |
-| -h --help | Print cylon information and exit |
+| -h --help | Print cylondeb information and exit |
 | -s --system | Print system information and exit |
 | -v --version  | Print version information and exit |
 | -p --print | print the package lists |
@@ -94,7 +100,7 @@ Optional Dependencies
 -------------------------------------
 Some functions require dependencies packages to be installed.
 These optional dependencies are left to user discretion.
-The user can check if optional dependencies installed with cylon help.
+The user can check if optional dependencies installed with cylondeb help.
 
 | Dependencies| Usage |
 | ------ | ------ |
@@ -167,7 +173,7 @@ Package Lists
 
 ### Commands used by index number in table:
 
-1. dpkg --list | grep ^i 
+1. dpkg --list | grep "^i" 
 2. apt-mark showmanual
 3.  deborphan 
 4.  apt-cache stats 
@@ -183,12 +189,12 @@ Package Lists
 
 See Also
 ------------------
-[aptitude](https://www.debian.org/doc/manuals/aptitude/)
-[apt](https://help.ubuntu.com/lts/serverguide/apt.html)
-[dpkg](http://manpages.ubuntu.com/manpages/zesty/en/man1/dpkg.1.html)
-[deborphan](https://www.commandlinux.com/man-page/man1/deborphan.1.html)
-[debsums](http://manpages.ubuntu.com/manpages/trusty/man1/debsums.1.html)
-[ppa-purge](http://manpages.ubuntu.com/manpages/precise/en/man1/ppa-purge.1.html)
+* [aptitude](https://www.debian.org/doc/manuals/aptitude/)
+* [apt](https://help.ubuntu.com/lts/serverguide/apt.html)
+* [dpkg](http://manpages.ubuntu.com/manpages/zesty/en/man1/dpkg.1.html)
+* [deborphan](https://www.commandlinux.com/man-page/man1/deborphan.1.html)
+* [debsums](http://manpages.ubuntu.com/manpages/trusty/man1/debsums.1.html)
+* [ppa-purge](http://manpages.ubuntu.com/manpages/precise/en/man1/ppa-purge.1.html)
 
 
 Communication
@@ -209,6 +215,7 @@ for version control history
 
 Copyright
 ---------
-Copyright (C) 2017 Gavin Lyons MIT Expat
+Copyright (C) 2017 Gavin Lyons MIT Expat.
+
 See LICENSE.md in documentation section of Upstream repository
 for more details.
