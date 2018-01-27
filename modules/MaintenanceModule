@@ -11,16 +11,11 @@
 # NAME : makeDirFunc
 # DESCRIPTION :  makes a directory with time/date stamp and enters it
 #Directory used for program output and backups. 
-# INPUTS : $1 text is appended to name  $2 bit flag  to change dir or not
+# INPUTS : $1 text is appended to name  
 function makeDirFunc
 {
 	local dirVar=""
-	#makes dirs for output appends passed text to name
-	#check if coming from system backup other path 1 yes 0 no.
-	if [ "$2" != 1 ]
-		then 
-		cd "$DEST3" || exitHandlerFunc DEST3
-	fi
+	cd "$DEST3" || exitHandlerFunc DEST3
 	dirVar=$(date +%H%M-%d%b%y)"$1"
 	mkdir "$dirVar"
 	cd "$dirVar" || exitHandlerFunc DEST4
@@ -108,29 +103,25 @@ function checkPacFunc
 }
 
 #FUNCTION HEADER
-# NAME : 	debupdateFunc
-# DESCRIPTION : debian  manager options
-# PROCESS : See options array      
-#NOTE gnu-netcat is neeeded for the first option.      
-function	debupdateFunc
+# NAME : 	debmenuoneFunc
+# DESCRIPTION : debian  manager options menu number one
+# PROCESS : See options array          
+function	debmenuoneFunc
 {
 clear
 while true; do
 	local pacString=""
-	msgFunc blue "Maintenance options:-"
+	msgFunc blue "Maintenance options menu one:-"
 	options=("Check for updates (no download), aptitude search '~U'" \
 	"Upgrade all, apt update && apt dist-upgrade" \
-	"Display remote package information, apt-cache show" \
 	"Install Package, apt install" \
-	"Search for packages in the database, apt search" \
 	"Delete Package, apt remove" \
+	"Display remote package information, apt-cache show" \
+	"Search for packages in the database, apt search" \
 	"Search for already installed packages, aptitude search '~i'" \
 	"Display  info for locally installed packages, dpkg -s" \
 	"List all files owned by a given package, dpkg -L " \
-	"Clean up all local cache, apt autoclean " \
 	"Write installed package lists to files" \
-	"Removes pkgs installed by other pkgs & no longer needed, apt autoremove " \
-	"Remove pkg's no longer included in any repos,aptitude purge '~o'" \
 	"View dpkg log file at /var/log/dpkg.log" \
 	"Show all or most information about a package, apt show " \
 	"Show the changelog of a package, apt-get changelog" \
@@ -138,12 +129,12 @@ while true; do
 	"Verify dependencies of the complete system, apt-get check" \
 	"Add a PPA to system,  add-apt-repository ppa:" \
 	"Purge a PPA from system,  ppa-purge" \
-	"Remove orphan packages with orphaner" \
 	"Return to main menu")
+	
 	select choicep in "${options[@]}"
 	do
 	case "$choicep" in
-		"${options[0]}")
+		"${options[0]}") #check for updates
 		msgFunc green "Updates ready:-.... "
 			msgFunc norm   "Number of  updates ready...> $(aptitude search '~U' | wc -l)"
 			aptitude search '~U' 
@@ -154,32 +145,31 @@ while true; do
 			sudo apt update  && sudo apt dist-upgrade
 		;;
 		
-		"${options[2]}") # Display remote package information
-			msgFunc green "Display information for Package."
-			msgFunc norm "Please enter package name"
-			read -r pacString
-			apt-cache show  "$pacString"
-		;;
-		
-		"${options[3]}") # Install Package
+		"${options[2]}") # Install Package
 			msgFunc green "Install package."
 			msgFunc norm "Please enter package name"
 			read -r pacString
 			sudo apt install "$pacString"
 		;;
 		
-		"${options[4]}")   #Search Repos for Package
-			msgFunc green "Search for packages in the database."
-			msgFunc norm "Please enter package name"
-			read -r pacString
-			apt search "$pacString"
-		;;
-		
-		"${options[5]}") #Delete Package
+		"${options[3]}") #Delete Package
 			msgFunc green "Delete Package."
 			msgFunc norm "Please enter package name"
 			read -r pacString
 			sudo apt remove "$pacString"
+		;;
+		
+		"${options[4]}") # Display remote package information
+			msgFunc green "Display information for Package."
+			msgFunc norm "Please enter package name"
+			read -r pacString
+			apt-cache show  "$pacString"
+		;;
+		"${options[5]}")   #Search Repos for Package
+			msgFunc green "Search for packages in the database."
+			msgFunc norm "Please enter package name"
+			read -r pacString
+			apt search "$pacString"
 		;;
 		
 		"${options[6]}")   #Search for already installed packages
@@ -190,7 +180,7 @@ while true; do
 		;;
 		
 		"${options[7]}") #Display extensive information about a given package(local install)
-			msgFunc green "Display information  for Package."
+			msgFunc green "Display information for Package."
 			msgFunc norm "Please enter package name"
 			read -r pacString
 			dpkg -s "$pacString"
@@ -203,75 +193,52 @@ while true; do
 			dpkg -L "$pacString"
 		;;
 		
-		"${options[9]}")  #Clean up all local caches.
-		#Autoclean removes only unneeded, obsolete information. 
-			msgFunc green  "Clean up all local cache."
-			sudo  apt autoclean 
-		;;
-		
-		"${options[10]}") #pkglist
+		"${options[9]}") #pkglist
 			msgFunc green "Writing installed package lists to files at :"
 			pkglistFunc
 		;;
 		
-		"${options[11]}") # Removes packages that were installed by other packages and are no longer needed. 
-			#Removes packages that were installed by other packages and are no longer needed. 
-			msgFunc green "Delete packages no longer needed!"
-			sudo  apt autoremove 
-		;;
-		
-		"${options[12]}") # Remove packages no longer included in any repositories. 
-			msgFunc green "Remove packages no longer included in any repositories."
-			sudo aptitude purge '~o' 	
-		;;
-		
-		"${options[13]}") #Show a log of actions taken by the software management. 
+		"${options[10]}") #Show a log of actions taken by the software management. 
 			msgFunc green "Show a log of actions taken by the software management."
 			less /var/log/dpkg.log
 		;;
 		
-		"${options[14]}") #Show all or most information about a package
+		"${options[11]}") #Show all or most information about a package
 			msgFunc green "Show all or most information about a package"
 			msgFunc norm "Please enter package name"
 			read -r pacString
 			apt show "$pacString"
 		;;
 		
-		"${options[15]}") #Show the changelog of a package
+		"${options[12]}") #Show the changelog of a package
 			msgFunc green "Show the change log of a package"
 			msgFunc norm "Please enter package name"
 			read -r pacString
 			apt-get changelog "$pacString"
 		;;
 		
-		"${options[16]}") # Verify all packages, debsums
+		"${options[13]}") # Verify all packages, debsums
 			msgFunc green "Verify all packages, debsums Only report errors."
 			makeDirFunc "-debsums"
 			debsums -s  --ignore-permissions > debsums.txt
 		;;
 		
-		
-		"${options[17]}") # Verify dependencies of the complete system, apt-get check
+		"${options[14]}") # Verify dependencies of the complete system, apt-get check
 			# Used if installation process was forcefully killed. 
 			msgFunc green "Verify dependencies of the complete system, apt-get check"
 			sudo apt-get check
 		;;
 
-		"${options[18]}") # Add a PPA to system, sudo add-apt-repository ppa:
+		"${options[15]}") # Add a PPA to system, sudo add-apt-repository ppa:
 			msgFunc green "Add a PPA to system, add-apt-repository ppa:"
 			read -r pacString
 			sudo add-apt-repository ppa:"$pacString"
 		;;
 		
-		"${options[19]}") #purge  a PPA from system, sudo ppa-purge:
+		"${options[16]}") #purge  a PPA from system, sudo ppa-purge:
 			msgFunc green "purge a PPA to system, sudo ppa-purge"
 			read -r pacString
 			sudo ppa-purge "$pacString"
-		;;
-		
-		"${options[20]}") #Remove orphan packages with orphaner
-			msgFunc green "Remove orphan packages with orphaner"
-			sudo orphaner
 		;;
 		
 		*)  #exit  
@@ -288,10 +255,115 @@ clear
 done
 }
 
+#FUNCTION HEADER
+# NAME : 	debmenutwoFunc
+# DESCRIPTION : debian  manager options menu number two
+# PROCESS : See options array   
+function	debmenutwoFunc
+{
+clear
+while true; do
+	local pacString=""
+	msgFunc blue "Maintenance options menu two:-"
+
+	optionstwo=("Clean up all local cache, apt autoclean " \
+		"Removes pkgs installed by other pkgs & no longer needed, apt autoremove " \
+		"Remove pkg's no longer included in any repos,aptitude purge '~o'" \
+		"Remove orphan packages with orphaner" \
+		"Removing packages and configs which are not required" \
+		"Remove orphaned packages automatically " \
+		"Delete cylon output folder" \
+		"Return to main menu")
+	select choicepp in "${optionstwo[@]}"
+	do
+	case "$choicepp" in
+		
+		"${optionstwo[0]}")  #Clean up all local caches.
+		#Autoclean removes only unneeded, obsolete information. 
+			msgFunc green  "Clean up all local cache."
+			sudo apt autoclean 
+		;;
+		"${optionstwo[1]}") # Removes packages that were installed by other packages and are no longer needed. 
+			#Removes packages that were installed by other packages and are no longer needed. 
+			msgFunc green "Delete packages no longer needed!"
+			sudo apt autoremove 
+		;;
+		
+		"${optionstwo[2]}") # Remove packages no longer included in any repositories. 
+			msgFunc green "Remove packages no longer included in any repositories."
+			sudo aptitude purge '~o' 	
+		;;
+		
+		"${optionstwo[3]}") # Remove orphan packages manually with orphaner utility 
+			msgFunc green "Remove orphan packages with orphaner"
+			sudo orphaner
+		;;
+		
+		"${optionstwo[4]}") 
+			#Removing packages and configurations which are 
+			#not required by any other package upon your system
+			msgFunc green "Removing packages and configurations which are "
+			msgFunc green "not required by any other package upon your system"
+			msgFunc norm  " "
+			msgFunc norm "Output of deborphan -n --find-config  :-"
+			deborphan -n --find-config 
+			msgFunc norm  " "
+			msgFunc norm "Press y to execute:- sudo deborphan -n --find-config | xargs apt-get -y purge"
+			msgFunc norm "[y/n/q]?"
+			if msgFunc yesno
+			then # user said yes
+				deborphan -n --find-config | xargs sudo apt-get -y purge
+			fi
+		;;
+		"${optionstwo[5]}") 
+			# remove orphaned packages automatically 
+			msgFunc green "Removing orphaned packages packages automatically"
+			msgFunc norm  " "
+			msgFunc norm "Orphans on system :-" 
+			deborphan
+			msgFunc norm  " "
+			msgFunc norm "Press y to execute:- deborphan | xargs sudo apt-get -y remove --purge"
+			msgFunc norm "[y/n/q]?"
+			if msgFunc yesno
+				then # user said ye
+				deborphan | xargs sudo apt-get -y remove --purge
+			fi
+		;;
+		
+		"${optionstwo[6]}")  #delete cylon ouput folder
+				msgFunc green "Deleting Cylon output folder $DEST3"
+				msgFunc norm "Output folder = $DEST3"
+				msgFunc norm "Press y to delete"
+				msgFunc norm "[y/n/q]"
+				
+				if msgFunc yesno 
+				then
+					rm -rvf "$DEST3"
+					#remake the path for the program output DEST3
+					mkdir -p "$DEST3"
+				fi
+				
+		;;
+		
+		*)  #exit  
+			msgFunc green "Done!"
+			clear
+			return
+		;;
+	esac
+	break
+	done
+	
+msgFunc green "Done!"
+msgFunc anykey
+clear
+done
+}
+
 
 #FUNCTION HEADER
 # NAME: spin
-# DESCRIPTION: Creates an animation spinner for long time taking process.
+# DESCRIPTION: Creates an animation spinner for long time taking process
 function spin
 {
 	spinner=( Ooooo oOooo ooOoo oooOo ooooO oooOo ooOoo oOooo);

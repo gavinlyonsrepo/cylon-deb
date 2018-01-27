@@ -22,6 +22,8 @@ install:
 	
 	@echo 'Installing Desktop entry...'
 	@cp -p	desktop/cylondeb.desktop $(PREFIX)/share/applications
+	
+	@echo 'Installing Desktop icon...'
 	@cp -p	desktop/cylondebicon.png $(PREFIX)/share/pixmaps
 
 	@echo 'DONE!'

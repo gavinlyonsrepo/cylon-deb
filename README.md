@@ -34,12 +34,11 @@ Table of contents
 Installation
 -----------------------------------------------
 
-
-A  Personal Package Archives (PPA) has been created on Ubuntu
+A Personal Package Archives (PPA) has been created on Ubuntu
 package building and hosting section of launchpad site 
 called cylondeb.
 
-Package built on Ubuntu 16.04 LTS (Xenial Xerus) 64bit
+Package built only for on Ubuntu 16.04 LTS (Xenial Xerus) 64bit
 
 To install this on your system run commands in terminal
 
@@ -49,10 +48,10 @@ sudo apt update
 sudo apt install cylondeb
 ```
 
-**or** Download and copy files manually as per file section table.
+**or** Download latest fixed release and copy files manually as per file section table.
 
 
-**or** Download and run the makefile 
+**or** Download latest fixed release  and run the makefile 
 
 ```sh
 sudo make install
@@ -73,8 +72,8 @@ Options list (standalone cannot be combined):
 | -h --help | Print cylondeb information and exit |
 | -s --system | Print system information and exit |
 | -v --version  | Print version information and exit |
-| -p --print | print the package lists |
-
+| -p --print | Print the package lists |
+| -b --bleachbit  | Shortcut to opens the bleachbit select menus |
 
 Files
 -----------------------------------------
@@ -115,27 +114,37 @@ The user can check if optional dependencies installed with cylondeb help.
 | deborphan | Orphaned package finder |
 | debsums | Verify the integrity of installed package files |
 | ppa-purge | Disables a PPA and reverts to official packages |
-
+| bleachbit | System clean and shredding |
 
 Features
 ----------------------
 
+The features are split into two main sections.
+
+Section one deals with system maintenance. The options here are divided 
+into 3 menus. Menu one deals with routine package maintenance 
+upgrading, installing, searching etc. Menu two deals with more advanced 
+options such as removing obsolete and orphaned packages, Exercise care
+and make backups and copys of the "packagelists" before using these options. 
+Menu 3 deals has some general linux maintenance options as well as a
+CLI wrapper for bleachbit. BleachBit is a free and open-source disk space 
+cleaner, privacy manager, and computer system optimizer.
+
+Section 2 is the miscellaneous section it mainly contains cylon and 
+system information displays. 
 
 **1: System update section**
-* Update options
+* Menu one options
 	* Check for updates (no download), aptitude search '~U' 
 	* Upgrade all, apt update && apt dist-upgrade 
 	* Display remote package information, apt-cache show 
 	* Install Package, apt install 
-	* Search for packages in the database, apt search 
 	* Delete Package, apt remove 
+	* Search for packages in the database, apt search 
 	* Search for already installed packages, aptitude search '~i' 
-	* Display  info for locally installed packages, dpkg -s 
+	* Display info for locally installed packages, dpkg -s 
 	* List all files owned by a given package, dpkg -L  
-	* Clean up all local cache, apt autoclean  
 	* Write installed package lists to files (see package list section)
-	* Removes pkgs installed by other pkgs & no longer needed, apt autoremove  
-	* Remove pkg's no longer included in any repos,aptitude purge '~o' 
 	* View dpkg log file at /var/log/dpkg.log 
 	* Show all or most information about a package, apt show  
 	* Show the changelog of a package, apt-get changelog 
@@ -143,14 +152,49 @@ Features
 	* Verify dependencies of the complete system, apt-get check 
 	* Add a PPA to system,  add-apt-repository ppa: 
 	* Purge a PPA from system,  ppa-purge 
-	* Remove orphan packages with orphaner 
-	* Return to main menu
 
+* Menu two options
+	* Clean up all local cache, apt autoclean  
+	* Removes pkgs installed by other pkgs & no longer needed, apt autoremove  
+	* Remove pkg's no longer included in any repos, aptitude purge '~o' 
+	* Remove orphan packages with orphaner tool
+	* Remove orphaned packages automatically, 
+	sudo deborphan | xargs sudo apt-get -y remove --purge
+	* Removing packages and configurations which are not required 
+	by any other package upon your system, deborphan -n --find-config 
+	| xargs apt-get -y purge
+	* delete contents of CYLONDEST output folder
+
+* Menu 3 options
+	* All Failed Systemd Services and system status
+	* All Failed Active Systemd Services
+	* Check log Journalctl for Errors
+	* Check log Journalctl for fstrim SSD trim (check for SSD in system)
+	* Analyze system boot-up performance
+	* Check for broken symlinks
+	* Check for files not owned by any user or group
+	* Diskspace usage 
+	* Old configuration files scan, output to files
+	* Find system inode usage
+	* Find largest files
+	* Print sensors information
+	* Vacuum journal files
+	* Delete core dumps 
+	* delete files 
+		* Shred specific files with bleachbit
+		* Shred specific folders with bleachbit
+	* Clean system with bleachbit (also run by -b standalone option.)
+		* Preset option based on the same options as in the GUI 
+		* Custom options involved for user to pick cleaners and options
+			* preview
+			* clean (without overwrite, BB checks the config in GUI).
+			* clean + overwrite (with overwrite permanent deletion)
+	* List all open files
 
 **2: Miscellaneous section**
 * Option to open xterm terminal at output folder path in new window
 
-* Computer information display
+* Computer system information display
 	* Displays detailed information on system and package setup
 	* Function also run by -s standalone option.
 
@@ -202,7 +246,7 @@ See Also
 * [deborphan](https://www.commandlinux.com/man-page/man1/deborphan.1.html)
 * [debsums](http://manpages.ubuntu.com/manpages/trusty/man1/debsums.1.html)
 * [ppa-purge](http://manpages.ubuntu.com/manpages/precise/en/man1/ppa-purge.1.html)
-
+* [bleachbit](https://en.wikipedia.org/wiki/BleachBit)
 
 Communication
 -----------

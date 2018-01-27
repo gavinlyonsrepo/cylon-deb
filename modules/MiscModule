@@ -107,29 +107,38 @@ function DisplayFunc
 msgFunc blue "Main Menu:"
 	local choiceMainVar
 	local optionsMArr=(
-	"System Maintenance Menu " "Open a xterm terminal at cylondeb output folder" \
+	"System Maintenance Menu 1 " "System Maintenance Menu 2 " "System Maintenance Menu 3 " "Open a xterm terminal at cylondeb output folder" \
 	  "System Information Display " "Cylondeb Information Display"  "Exit"\
 	)
 	select choiceMainVar in "${optionsMArr[@]}"
 	do
 	case "$choiceMainVar" in
-		"${optionsMArr[0]}")   # update menu for deb
-			debupdateFunc
+		"${optionsMArr[0]}")   # Menu number one 
+			debmenuoneFunc
 		;;
-		"${optionsMArr[1]}")  # open a terminal
+		
+		"${optionsMArr[1]}")   # Menu number one 
+			debmenutwoFunc
+		;;
+		
+		"${optionsMArr[2]}")   # Menu number one 
+			SystemMaintFunc
+		;;
+		
+		"${optionsMArr[3]}")  # open a terminal
 			xterm -e "cd $DEST3  && /bin/bash"
 			msgFunc anykey
 		;;
 
-		"${optionsMArr[2]}") #system info
+		"${optionsMArr[4]}") #system info
 			HelpFunc "SYS"
 		;;
-		"${optionsMArr[3]}")  # cylon info
+		
+		"${optionsMArr[5]}")  # cylon info
 			HelpFunc "HELP"
 		;;
-		*)#exit
-			exitHandlerFunc exitout 
-		;;
+		
+		*) exitHandlerFunc exitout ;; #exit
 	esac
 	break
 	done
@@ -186,7 +195,7 @@ if [ "$1" = "HELP" ]
 		msgFunc line
 		msgFunc green "Displaying cylondeb README.md file at $DEST6"
 		cd "$DEST6"  || exitHandlerFunc DEST6
-		less README.md.gz 
+		less README.md.gz || less README.md
 		msgFunc green "Done!" 
 		msgFunc line
 		msgFunc anykey
@@ -245,7 +254,7 @@ case "$1" in
 		pkglistFunc
 		;;
 	-v|--version)
-		msgFunc green "$(dpkg -s cylondeb 2> /dev/null | grep Version)"
+		msgFunc norm "$(dpkg -s cylondeb 2> /dev/null | grep Version)"
 		;;
 	-s|--system)
 		HelpFunc SYS
@@ -253,8 +262,12 @@ case "$1" in
 	-h|--help)
 		HelpFunc HELP
 		;;
+		
+	-b|--bleachbit)
+		SystemCleanFunc
+	;;
 	*)	msgFunc red    "Invalid option!"
-		msgFunc yellow "Usage: -h -s -v -p"
+		msgFunc yellow "Usage: -h -s -v -p -b"
 		msgFunc yellow "See readme.md for details at cylondeb -h "
 	;;
 esac
