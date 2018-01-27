@@ -50,10 +50,12 @@ sudo apt install cylondeb
 
 **or** Download latest fixed release and copy files manually as per file section table.
 
-
-**or** Download latest fixed release  and run the makefile 
+**or** Download latest fixed release  and run the makefile as per 
+terminal commands below for version 2.1 latest release at time of writing
 
 ```sh
+curl -sL https://github.com/gavinlyonsrepo/cylon-deb/archive/2.1.tar.gz | tar xz
+cd cylon-deb-2.1
 sudo make install
 ```
 
