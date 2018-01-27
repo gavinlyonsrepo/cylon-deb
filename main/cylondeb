@@ -37,8 +37,8 @@ fi
 mkdir -p "$DEST3"
 
 DEST6="/usr/share/doc/cylondeb/" # readme
-DEST7="/usr/lib/cylondeb/modules/" #lib modules
-#DEST7="../modules/"  # Development path comment out for production
+#DEST7="/usr/lib/cylondeb/modules/" #lib modules
+DEST7="../modules/"  # Development path comment out for production
 
 #====================FUNCTIONS==============================
 #Source the module files for the functions from the cylon library folder
