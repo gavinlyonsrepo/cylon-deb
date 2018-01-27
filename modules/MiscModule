@@ -179,7 +179,7 @@ if [ "$1" = "HELP" ]
 	msgFunc norm " "
 	msgFunc green "Dependencies"
 	#create array to hold Dependencies
-	local DependenciesArr=("aptitude" "deborphan" "debsums"  "ppa-purge")
+	local DependenciesArr=("aptitude" "deborphan" "debsums"  "ppa-purge" "bleachbit")
 	#loop thru and display the array
 	#length of array
 	local tLenVar=""
