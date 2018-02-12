@@ -135,6 +135,7 @@ cleaner, privacy manager, and computer system optimizer.
 Section 2 is the miscellaneous section it mainly contains cylon and 
 system information displays. 
 
+
 **1: System update section**
 * Menu one options
 	* Check for updates (no download), aptitude search '~U' 
@@ -154,6 +155,16 @@ system information displays.
 	* Verify dependencies of the complete system, apt-get check 
 	* Add a PPA to system,  add-apt-repository ppa: 
 	* Purge a PPA from system,  ppa-purge 
+
+*Warning*
+
+Some of these options in menu 2 remove unwanted and unneeded packages 
+and configs from system as identified by utilities. What will be 
+removed is presented to user first. Please take care especially with 
+deborphan options numbered  5 and 6.
+These have not been tested on all debian type distros.
+Recommend carry these options out after 
+backups and to document process.
 
 * Menu two options
 	* Clean up all local cache, apt autoclean  
