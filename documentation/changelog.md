@@ -21,3 +21,6 @@ Version control
 	* 19 new maintenance options added.
 	* bleachbit CLI wrapper added.
 	* Maintenance options divided into 3 menus.
+
+* version 2.2-3 050718
+	*  updating PPA to Ubuntu 18.04 LTS (Bionic Beaver)

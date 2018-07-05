@@ -38,7 +38,7 @@ A Personal Package Archives (PPA) has been created on Ubuntu
 package building and hosting section of launchpad site 
 called cylondeb.
 
-Package built only for on Ubuntu 16.04 LTS (Xenial Xerus) 64bit
+Package built only for on Ubuntu 18.04 LTS (Bionic Beaver) 64bit
 
 To install this on your system run commands in terminal
 
@@ -51,11 +51,11 @@ sudo apt install cylondeb
 **or** Download latest fixed release and copy files manually as per file section table.
 
 **or** Download latest fixed release  and run the makefile as per 
-terminal commands below for version 2.1 latest release at time of writing
+terminal commands below for version 2.2 latest release at time of writing
 
 ```sh
-curl -sL https://github.com/gavinlyonsrepo/cylon-deb/archive/2.1.tar.gz | tar xz
-cd cylon-deb-2.1
+curl -sL https://github.com/gavinlyonsrepo/cylon-deb/archive/2.2.tar.gz | tar xz
+cd cylon-deb-2.2
 sudo make install
 ```
 
