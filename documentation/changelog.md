@@ -24,3 +24,6 @@ Version control
 
 * version 2.2-3 050718
 	*  updating PPA to Ubuntu 18.04 LTS (Bionic Beaver)
+
+* version 2.3-4 200520
+	*  updating PPA to Ubuntu 20.04 LTS (Focal Fossa)

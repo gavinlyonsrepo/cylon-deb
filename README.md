@@ -2,7 +2,8 @@ Overview
 --------------------------------------------
 * Name: cylondeb
 * Title : cylon-deb , Debian based Linux distribution maintenance program.
-* Description: A TUI (terminal user interface) which allows users to 
+* Description: 
+A TUI (terminal user interface) which allows users to 
 carry out  maintenance on  an Debian based linux distributions.
 The program is menu-based and written in bash.
 The program is a fork and highly truncated version of the 
@@ -10,7 +11,11 @@ arch-linux maintenance program *cylon*,
 which can also be found in this repo. This program provides a
 Terminal based alternative to GUI software managers found in many distros.
 
-* Author: Gavin Lyons 
+* Author: [Gavin Lyons](https://gavinlyonsrepo.github.io/) 
+* Communication : Github or glyons66@hotmail.com
+* Upstream repository: [github](https://github.com/gavinlyonsrepo/cylon_deb)
+* History: See changelog.md in documentation section 
+* Copyright: Copyright (C) 2017 Gavin Lyons MIT Expat.
 
 
 Table of contents
@@ -26,20 +31,20 @@ Table of contents
   * [Features](#features)
   * [Package Lists](#package-lists)
   * [See Also](#see-also)
-  * [Communication](#communication)
-  * [History](#history)
-  * [Copyright](#copyright)
 
 
 Installation
 -----------------------------------------------
 
+
+
+Two different install methods.
+
+1.   Install by PPA
+
 A Personal Package Archives (PPA) has been created on Ubuntu
 package building and hosting section of launchpad site 
-called cylondeb.
-
-Package built only for on Ubuntu 18.04 LTS (Bionic Beaver) 64bit
-
+called cylondeb. Package built only for on Ubuntu 20.04 LTS (Focal Fossa) 64bit
 To install this on your system run commands in terminal
 
 ```sh
@@ -48,14 +53,17 @@ sudo apt update
 sudo apt install cylondeb
 ```
 
-**or** Download latest fixed release and copy files manually as per file section table.
+**OR** 
 
-**or** Download latest fixed release  and run the makefile as per 
-terminal commands below for version 2.2 latest release at time of writing
+
+2. Install by makefile
+
+Download latest fixed release and run the makefile as per 
+terminal commands below for version 2.3 latest release at time of writing
 
 ```sh
-curl -sL https://github.com/gavinlyonsrepo/cylon-deb/archive/2.2.tar.gz | tar xz
-cd cylon-deb-2.2
+curl -sL https://github.com/gavinlyonsrepo/cylon-deb/archive/2.3.tar.gz | tar xz
+cd cylon-deb-2.3
 sudo make install
 ```
 
@@ -253,6 +261,7 @@ Package Lists
 
 See Also
 ------------------
+
 * [aptitude](https://www.debian.org/doc/manuals/aptitude/)
 * [apt](https://help.ubuntu.com/lts/serverguide/apt.html)
 * [dpkg](http://manpages.ubuntu.com/manpages/zesty/en/man1/dpkg.1.html)
@@ -260,26 +269,3 @@ See Also
 * [debsums](http://manpages.ubuntu.com/manpages/trusty/man1/debsums.1.html)
 * [ppa-purge](http://manpages.ubuntu.com/manpages/precise/en/man1/ppa-purge.1.html)
 * [bleachbit](https://en.wikipedia.org/wiki/BleachBit)
-
-Communication
------------
-If you should find a bug or you have any other query, 
-please send a report.
-Pull requests, suggestions for improvements
-and new features welcome.
-* Contact: Upstream repo at github site below or glyons66@hotmail.com
-* Upstream repository: [github](https://github.com/gavinlyonsrepo/cylon_deb)
-
-
-History
-------------------
-See changelog.md in documentation section of Upstream repository
-for version control history
-
-
-Copyright
----------
-Copyright (C) 2017 Gavin Lyons MIT Expat.
-
-See LICENSE.md in documentation section of Upstream repository
-for more details.
