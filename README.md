@@ -1,6 +1,5 @@
 Overview
 --------------------------------------------
-* Name: cylondeb
 * Title : cylon-deb , Debian based Linux distribution maintenance program.
 * Description: 
 A TUI (terminal user interface) which allows users to 
@@ -12,11 +11,6 @@ which can also be found in this repo. This program provides a
 Terminal based alternative to GUI software managers found in many distros.
 
 * Author: [Gavin Lyons](https://gavinlyonsrepo.github.io/) 
-* Communication : Github or glyons66@hotmail.com
-* Upstream repository: [github](https://github.com/gavinlyonsrepo/cylon_deb)
-* History: See changelog.md in documentation section 
-* Copyright: Copyright (C) 2017 Gavin Lyons MIT Expat.
-
 
 Table of contents
 ---------------------------
@@ -36,16 +30,13 @@ Table of contents
 Installation
 -----------------------------------------------
 
-
-
 Two different install methods.
 
-1.   Install by PPA
+1.   Install by PPA (Distros based on Ubuntu 22.04 LTS )
 
 A Personal Package Archives (PPA) has been created on Ubuntu
 package building and hosting section of launchpad site 
-called cylondeb. Package built only for on Ubuntu 20.04 LTS (Focal Fossa) 64bit
-To install this on your system run commands in terminal
+called cylondeb. Package built only for on Ubuntu 22.04 LTS (Jammy JellyFish) 64bit To install this on your system run commands in terminal
 
 ```sh
 sudo add-apt-repository ppa:typematrix/cylondeb
@@ -55,21 +46,20 @@ sudo apt install cylondeb
 
 **OR** 
 
-
 2. Install by makefile
 
 Download latest fixed release and run the makefile as per 
-terminal commands below for version 2.3 latest release at time of writing
+terminal commands below for version 2.4 latest release at time of writing.
+You will not be informed of updates by system if you use this method.
 
 ```sh
-curl -sL https://github.com/gavinlyonsrepo/cylon-deb/archive/2.3.tar.gz | tar xz
-cd cylon-deb-2.3
+curl -sL https://github.com/gavinlyonsrepo/cylon-deb/archive/2.4.tar.gz | tar xz
+cd cylon-deb-2.4
 sudo make install
 ```
 
 Usage
 -------------------------------------------
-
 
 Run in a terminal by typing: 
 
@@ -143,7 +133,6 @@ cleaner, privacy manager, and computer system optimizer.
 Section 2 is the miscellaneous section it mainly contains cylon and 
 system information displays. 
 
-
 **1: System update section**
 * Menu one options
 	* Check for updates (no download), aptitude search '~U' 
@@ -169,10 +158,9 @@ system information displays.
 Some of these options in menu 2 remove unwanted and unneeded packages 
 and configs from system as identified by utilities. What will be 
 removed is presented to user first. Please take care especially with 
-deborphan options numbered  5 and 6.
+deborphan options numbered  3  <-> 6. 
 These have not been tested on all debian type distros.
-Recommend carry these options out after 
-backups and to document process.
+Options 3 to 6 should only be used with caution by advanced users.
 
 * Menu two options
 	* Clean up all local cache, apt autoclean  

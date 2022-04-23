@@ -27,3 +27,6 @@ Version control
 
 * version 2.3-4 200520
 	*  updating PPA to Ubuntu 20.04 LTS (Focal Fossa)
+
+* version 2.4-5 22-04-2022
+	*  updating PPA to Ubuntu 22.04 LTS (Jammy JellyFish)

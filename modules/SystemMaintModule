@@ -1,6 +1,6 @@
 #!/bin/bash
 #Module containing functions called from cylon package
-#Functions: SystemMaintFunc   configFileScanFunc
+#Functions: SystemMaintFunc  configFileScanFunc
 
 #FUNCTION HEADER
 # NAME :   SystemMaintFunc

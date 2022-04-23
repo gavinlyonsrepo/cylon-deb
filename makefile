@@ -3,29 +3,42 @@ PREFIX ?= /usr
 
 all:
 	@echo Run \'make install\' to install cylondeb.
-
+	@echo 'or'
+	@echo Run \'make uninstall\' to uninstall cylondeb.
+	
 install:
+	@echo 'Installing cylondeb ....' 
 	@echo 'Making directories...'
-	@mkdir -p $(PREFIX)/bin
-	@mkdir -p $(PREFIX)/lib/cylondeb/modules
-	@mkdir -p $(PREFIX)/share/doc/cylondeb
+	@mkdir -vp $(PREFIX)/bin
+	@mkdir -vp $(PREFIX)/lib/cylondeb/modules
+	@mkdir -vp $(PREFIX)/share/doc/cylondeb
 	
 	@echo 'Installing script...'
-	@cp -p main/cylondeb $(PREFIX)/bin
+	@cp -vp main/cylondeb $(PREFIX)/bin
 	@chmod 755 $(PREFIX)/bin/cylondeb
 	
 	@echo 'Installing modules...'
-	@cp -p modules/* $(PREFIX)/lib/cylondeb/modules
+	@cp -vp modules/* $(PREFIX)/lib/cylondeb/modules
 
 	@echo 'Installing Readme...'
-	@cp -p README.md  $(PREFIX)/share/doc/cylondeb
+	@cp -vp README.md  $(PREFIX)/share/doc/cylondeb
 	
 	@echo 'Installing Desktop entry...'
-	@cp -p	desktop/cylondeb.desktop $(PREFIX)/share/applications
+	@cp -vp	desktop/cylondeb.desktop $(PREFIX)/share/applications
 	
 	@echo 'Installing Desktop icon...'
-	@cp -p	desktop/cylondebicon.png $(PREFIX)/share/pixmaps
+	@cp -vp	desktop/cylondebicon.png $(PREFIX)/share/pixmaps
 
 	@echo 'DONE!'
 
+uninstall:
+	@echo 'Uninstalling cylondeb ...'
+	
+	rm -vf $(PREFIX)/bin/cylondeb
+	rm -vf $(PREFIX)/lib/cylondeb/modules/*Module
+	rm -vf $(PREFIX)/share/doc/cylondeb/README.md
+	rm -vf $(PREFIX)/share/applications/cylondeb.desktop
+	rm -vf $(PREFIX)/share/pixmaps/cylondebicon.png
+	
+	@echo 'DONE!'
 

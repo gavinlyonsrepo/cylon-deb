@@ -1,13 +1,10 @@
 #!/bin/bash
-#=========================HEADER==========================================
-
-#name: MiscModule 
+#==HEADER==
 #Description: Called by Cylon-deb, Bash shell Module to hold miscellaneous functions
-#Written : Gavin Lyons
 #Function list: msgFunc , exitHandlerFunc ,  DisplayFunc , HelpFunc 
 # checkinputFunc
 
-#====================FUNCTIONS===============================
+#==FUNCTIONS==
 
 #FUNCTION HEADER
 # NAME : msgFunc
@@ -264,7 +261,13 @@ case "$1" in
 		pkglistFunc
 		;;
 	-v|--version)
-		msgFunc norm "$(dpkg -s cylondeb 2> /dev/null | grep Version)"
+		local VersionData
+		VersionData=$(dpkg -s cylondeb 2> /dev/null | grep Version)
+		if [[ -n "$VersionData" ]]  ; then
+			msgFunc norm "$VersionData"  # installed by PPA
+		else
+			msgFunc norm "Version 2.4" #  installed by makefile
+		fi
 		;;
 	-s|--system)
 		HelpFunc SYS

@@ -1,12 +1,10 @@
 #!/bin/bash
-#=========================HEADER==========================================
-#name: MaintenanceModule
+#==HEADER==
 #Title: Bash shell Module called by program cylon-deb 
 #Description: Holds functions related to System Maintenance
-#Written: Gavin Lyons
 #Function list: pkglistFunc , checkPacFunc , debupdateFunc , makeDirFunc
 
-#====================FUNCTIONS===============================
+#==FUNCTIONS==
 #FUNCTION HEADER
 # NAME : makeDirFunc
 # DESCRIPTION :  makes a directory with time/date stamp and enters it
@@ -16,7 +14,7 @@ function makeDirFunc
 {
 	local dirVar=""
 	cd "$DEST3" || exitHandlerFunc DEST3
-	dirVar=$(date +%H%M-%d%b%y)"$1"
+	dirVar=$(date  +%d%b%y-%H%M)"$1"
 	mkdir "$dirVar"
 	cd "$dirVar" || exitHandlerFunc DEST4
 	msgFunc norm "Directory for output made at:-"
@@ -264,6 +262,7 @@ function	debmenutwoFunc
 clear
 while true; do
 	local pacString=""
+	msgFunc yellow "Warning Options 3-6 should be used with caution by advanced users"
 	msgFunc blue "Maintenance options menu two:-"
 
 	optionstwo=("Clean up all local cache, apt autoclean " \

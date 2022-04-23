@@ -1,17 +1,10 @@
 #!/bin/bash
-#=========================HEADER======================================
+#==HEADER==
 #Name:cylon-deb 
-#Script: cylondeb
-#Title : Debian Linux distro maintenance bash script. 
-#Description: TUI providing Updates  
-#in a single menu driven optional script Command line program users. 
-#see readme.md(access thru cylon info page)
-#Version 2.1-2 See changelog.md at repo for version control
-#License: see license.md 
 #Written by Gavin lyons 
 #Software repo: https://github.com/gavinlyonsrepo/cylon_deb
 
-#=======================GLOBAL VARIABLES SETUP=========================
+#==GLOBAL VARIABLES SETUP==
 
 #colours for printf
 RED=$(printf "\033[31;1m")
@@ -40,7 +33,7 @@ DEST6="/usr/share/doc/cylondeb/" # readme
 DEST7="/usr/lib/cylondeb/modules/" #lib modules
 #DEST7="../modules/"  # Development path comment out for production
 
-#====================FUNCTIONS==============================
+#==FUNCTIONS==
 #Source the module files for the functions from the cylon library folder
 #at /usr/lib/cylon/modules/* , Function syntax: nameFunc.
 for MYFILE in "$DEST7"*;
@@ -49,7 +42,7 @@ do
 done
 
 
-#==================MAIN CODE====================================
+#==MAIN CODE==
 #call check for user input options
 checkinputFunc "$1"
 clear
@@ -69,4 +62,4 @@ while true; do
 	#call the display main menu function
 	DisplayFunc
 done
-#====================== END ==============================
+#== END ==
